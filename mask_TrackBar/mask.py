@@ -16,16 +16,18 @@ cv2.namedWindow('image')
 
 
 # create trackbars for color change
-cv2.createTrackbar('H1','image',0,255,nothing)
+cv2.createTrackbar('H1','image',50,255,nothing)
 cv2.createTrackbar('S1','image',0,255,nothing)
 cv2.createTrackbar('V1','image',0,255,nothing)
-
-
 
 # create trackbars for color change
 cv2.createTrackbar('H2','image',255,255,nothing)
 cv2.createTrackbar('S2','image',255,255,nothing)
 cv2.createTrackbar('V2','image',255,255,nothing)
+
+# create switch for ON/OFF functionality
+switch = '0 : OFF \n1 : ON'
+cv2.createTrackbar(switch, 'image',0,1,nothing)
 
 
 
@@ -55,9 +57,16 @@ while(1):
 #    # Threshold the HSV image to get only blue colors
     mask = cv2.inRange(img, lower_blue, upper_blue)
     output = cv2.bitwise_not(img, img, mask = mask)
-    cv2.imshow('image',output)
-    cv2.imshow('image',mask)
+   
     
+    s = cv2.getTrackbarPos(switch,'image')
+
+    if s == 0:
+        cv2.imshow('image',mask)
+    else:
+        cv2.imshow('image',output)
+
+        
     k = cv2.waitKey(1) & 0xFF
     if k == 27:
         break
